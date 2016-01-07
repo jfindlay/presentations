@@ -83,10 +83,10 @@ Consider the set of integers and the addition operation, $(\mathbb Z,+)$.  For a
 \frametitle{Fields}
 A field is a 3-tuple consisting of a set $G$ and two operations $\dag,*$ having a list of properties.
 
-Consider the set of integers and the addition and multiplication operations, $(\mathbb Z,+,\times)$.  For any $a,b,c \in \mathbb Z$:
+Consider the set of rational numbers and the addition and multiplication operations, $(\mathbb Q,+,\times)$.  For any $a,b,c \in \mathbb Q$:
 \begin{itemize}
-  \item the 2-tuple $(\mathbb Z,+)$ is an abelian group
-  \item the 2-tuple $(\mathbb Z \setminus \{0\},\times)$ is an abelian group
+  \item the 2-tuple $(\mathbb Q,+)$ is an abelian group
+  \item the 2-tuple $(\mathbb Q \setminus \{0\},\times)$ is an abelian group
   \item Distributivity: $a\times(b + c) = a\times b + a\times c$
 \end{itemize}
 \end{frame}
@@ -94,7 +94,7 @@ Consider the set of integers and the addition and multiplication operations, $(\
 \begin{frame}
 \frametitle{Vector Spaces}
 \begin{multicols}{2}
-  A vector space is a cartesian product of identical sets and two operations. \\
+  A vector space is a 3-tuple of a cartesian product of identical sets and two operations. \\
   \columnbreak
   \includegraphics[width=3cm]{X-Wing_TIE.png}
 \end{multicols}
@@ -167,7 +167,7 @@ The projective plane is needed to do algebra over the points on an elliptic curv
 \begin{multicols}{2}
   A hash is a function that maps strings of bytes of arbitrary length into a set of strings of bytes that have relatively short and identical lengths.
   \columnbreak
-  \includegraphics[width=6cm]{hash.png}
+  \includegraphics[width=6cm]{hash.png}\footnote{\url{https://commons.wikimedia.org/wiki/File:Cryptographic_Hash_Function.svg}}
 \end{multicols}
 \end{frame}
 
@@ -195,24 +195,25 @@ The projective plane is needed to do algebra over the points on an elliptic curv
 \section{Elliptic Curve Crypto Libraries}
 
 \begin{frame}
+\frametitle{Libraries}
 \begin{itemize}
   \item NaCl
     \begin{itemize}
-      \item NaCl \url{http://nacl.cr.yp.to/}
-      \item tweetNaCl \url{http://tweetnacl.cr.yp.to/}
-      \item libsodium \url{https://github.com/jedisct1/libsodium}
+      \item NaCl: \url{http://nacl.cr.yp.to/}
+      \item tweetNaCl: \url{http://tweetnacl.cr.yp.to/}
+      \item libsodium: \url{https://github.com/jedisct1/libsodium}
     \end{itemize}
   \item libnacl
     \begin{itemize}
-      \item home \url{https://github.com/saltstack/libnacl}
-      \item docs \url{https://libnacl.readthedocs.org/en/latest/}
+      \item home: \url{https://github.com/saltstack/libnacl}
+      \item docs: \url{https://libnacl.readthedocs.org/en/latest/}
     \end{itemize}
   \item PyNaCl
     \begin{itemize}
-      \item home \url{https://github.com/pyca/pynacl}
-      \item docs \url{https://pynacl.readthedocs.org/en/latest/}
+      \item home: \url{https://github.com/pyca/pynacl}
+      \item docs: \url{https://pynacl.readthedocs.org/en/latest/}
     \end{itemize}
-  \item pure\_pynacl \url{https://github.com/jfindlay/pure\_pynacl}
+  \item pure\_pynacl: \url{https://github.com/jfindlay/pure\_pynacl}
 \end{itemize}
 \end{frame}
 
