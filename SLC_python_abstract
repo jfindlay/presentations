@@ -1,0 +1,13 @@
+Elliptic Curves, Cryptography, Python, and You
+
+- elliptic curves:
+  - elliptic curve cryptography
+- cryptography:
+  - (a)symmetric encryption
+  - hashing
+  - keys
+  - signing
+- NaCl:
+  - libsodium
+  - PyNaCl: https://github.com/pyca/pynacl
+  - pure_PyNaCl
