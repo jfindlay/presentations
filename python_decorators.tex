@@ -1,0 +1,100 @@
+\documentclass{beamer}
+\usetheme{Montpellier}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{multicol}
+
+\title{Python Decorators}
+\author{Justin Findlay\\\texttt{jfindlay@gmail.com}}
+\date[SLC Python]{2016 September 7}
+
+\begin{document}
+\maketitle
+
+\section{Context}
+
+\begin{frame}
+\frametitle{Meta}
+\begin{itemize}
+  \item{lots of confusion and confusing explanations on decorators}
+  \item{confusing subject, so need to discuss some aspects of the language features Python implements}
+  \item{everything is a first class object, in particular functions, implications for metaprogramming: decoration already subsumed and generalized by metaprogramming features of Python, specifically that functions are objects and objects have many nice features; nothing special about decorators, the formalism is just one construct naturally provided by the elegant general-purpose design of the language}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Function Metaprogramming}
+\framesubtitle{working with functions demo}
+\begin{itemize}
+  \item{definition}
+  \item{printing/representation}
+  \item{reassignment}
+  \item{as a function argument, return value}
+\end{itemize}
+\end{frame}
+
+\section{Theory}
+
+\begin{frame}
+\frametitle{Function Metaprogramming}
+\begin{itemize}
+  \item{definitions}
+    \begin{itemize}
+      \item{metaprogramming: code that codes other code.  Simple examples: templating, macros, makefiles, and decorators}
+      \item{function: perform an action parameterized by the input}
+      \item{class: collection of functions and data}
+      \item{method: a class function}
+    \end{itemize}
+  \item{decorator definition: a function that accepts a function, class, or method object, modifies it, and returns the modified object}
+  \item{decoration definition: from wikipedia link \url{https://en.wikipedia.org/wiki/Decorator_pattern}}
+  \item{difference between decorator and decoration: construct enabled by metaprogramming features built into Python and syntactic shortcut}
+\end{itemize}
+\end{frame}
+
+\section{Decorators}
+
+\begin{frame}
+\frametitle{Decorator Examples}
+\begin{itemize}
+  \item{simple decorator}
+  \item{decorator sandwich}
+  \item{decorated arguments}
+  \item{decorator arguments}
+  \item{decorating a decorator}
+  \item{can a decorator decorate itself: decorator recursion}
+\end{itemize}
+\end{frame}
+
+\section{Motivation}
+
+\begin{frame}
+\frametitle{Using Decorators}
+\begin{itemize}
+  \item{creating class methods or static methods}
+  \item{adding function attributes}
+  \item{tracing}
+  \item{setting pre- and postconditions}
+  \item{synchronization}
+  \item{tail recursion elimination}
+  \item{memoization}
+  \item{improving the writing of decorators [wikipedia]}
+  \item{properties}
+  \item{contextmanager}
+  \item{functools}
+  \item{python wiki on decorators}
+\end{itemize}
+\end{frame}
+
+
+% functions like everything else is a first class object, assignment, redefinition, etc., but support __call__, (), operation
+% decorator sandwich
+
+% resources:
+% - https://pythonconquerstheuniverse.wordpress.com/2012/04/29/python-decorators/
+% - https://stackoverflow.com/questions/739654/how-can-i-make-a-chain-of-function-decorators-in-python/1594484#1594484
+% - https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators
+% - https://en.wikipedia.org/wiki/Decorator_pattern
+% - https://en.wikipedia.org/wiki/Advice_%28programming%29
+% - https://wiki.python.org/moin/PythonDecoratorLibrary
+
+\end{document}
