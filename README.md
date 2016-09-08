@@ -2,5 +2,5 @@
 
 Generate the presentation:
 ```console
-$ pdflatex python_decorators.tex
+$ pdflatex -shell-escape python_decorators.tex
 ```

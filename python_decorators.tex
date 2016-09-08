@@ -3,9 +3,10 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{multicol}
+\usepackage{minted}
 
 \title{Python Decorators}
-\author{Justin Findlay\\\texttt{jfindlay@gmail.com}}
+\author{Justin Findlay \\ \url{http://jfindlay.us/} \\ \url{jfindlay@gmail.com}}
 \date[SLC Python]{2016 September 7}
 
 \begin{document}
@@ -14,61 +15,177 @@
 \section{Context}
 
 \begin{frame}
-\frametitle{Meta}
+\frametitle{Confusion}
 \begin{itemize}
-  \item{lots of confusion and confusing explanations on decorators}
-  \item{confusing subject, so need to discuss some aspects of the language features Python implements}
-  \item{everything is a first class object, in particular functions, implications for metaprogramming: decoration already subsumed and generalized by metaprogramming features of Python, specifically that functions are objects and objects have many nice features; nothing special about decorators, the formalism is just one construct naturally provided by the elegant general-purpose design of the language}
+  \item<2->{Many confusions and confusing explanations on decorators\footnote{\url{https://pythonconquerstheuniverse.wordpress.com/2012/04/29/python-decorators/}}}
+  \item<3->{We need to start with Python's object model and follow the implications it has for metaprogramming with functions}
+  \item<4->{Then we will see that decorators are merely a corollary result of this design}
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{Function Metaprogramming}
-\framesubtitle{working with functions demo}
+\begin{frame}[fragile]
+\frametitle{Python Functions are Objects}
 \begin{itemize}
-  \item{definition}
-  \item{printing/representation}
-  \item{reassignment}
-  \item{as a function argument, return value}
+  \item<1->{In Python, everything is an object}
+  \item<2->{In particular functions are objects}
+    \begin{minted}{python}
+>>> def f():
+...     print('called')
+...
+>>> g = f
+>>> g()
+called
+    \end{minted}
 \end{itemize}
 \end{frame}
 
 \section{Theory}
 
 \begin{frame}
-\frametitle{Function Metaprogramming}
+\frametitle{Metaprogramming}
 \begin{itemize}
-  \item{definitions}
+  \item<2->{{\bf Programming:} apply logic to data}
+  \item<3->{{\bf Metaprogramming:} apply logic to logic, or work with logic (code) as if it were data}
+  \item<4->{Simple Examples of metaprogramming}
     \begin{itemize}
-      \item{metaprogramming: code that codes other code.  Simple examples: templating, macros, makefiles, and decorators}
-      \item{function: perform an action parameterized by the input}
-      \item{class: collection of functions and data}
-      \item{method: a class function}
+      \item<4->{file templating}
+      \item<4->{macros}
+      \item<4->{makefiles}
     \end{itemize}
-  \item{decorator definition: a function that accepts a function, class, or method object, modifies it, and returns the modified object}
-  \item{decoration definition: from wikipedia link \url{https://en.wikipedia.org/wiki/Decorator_pattern}}
-  \item{difference between decorator and decoration: construct enabled by metaprogramming features built into Python and syntactic shortcut}
+  \item<5->{Nonsimple Examples of metaprogramming}
+    \begin{itemize}
+      \item<5->{C++ templates}
+      \item<5->{Python decorators}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Python Object Model}
+\begin{itemize}
+  \item<1->{What metaprogramming features do we need for decorators to work?  $\forall\ \text{functions}\ \mathtt{f}, \mathtt{g}, \mathtt{h}$:}
+    \begin{enumerate}
+      \item<2->{Assignment: \mintinline{python}{g = f}}
+      \item<3->{Argument: \mintinline{python}{g(f)}}
+      \item<4->{Map: \mintinline{python}{return h}}
+    \end{enumerate}
+  \item<5->{All of these operations work for any Python object, including callable objects (functions), so decorators can be used in Python}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Decorator}
+\framesubtitle{Still wondering what a decorator is?}
+\begin{itemize}
+  \item<2->{What the \mintinline{python}{@d3c0r4t0r} is a decorator?}
+  \item<3->{There is plenty of theory on decorator and associated models\footnote{See wikipedia references at the end of the presentation}}
+  \item<4->{We only care about an informal, working definition for the Python construct}
+  \item<5->{{\bf Decorator:} A callable (function) that accepts a function as an argument and returns a function}
+  \item<6->{Usually the returned function is a convenient synonym or simple generalization of the function argument}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Implementing a Decorator}
+\begin{itemize}
+  \item<1->{Now that we've proven decorators can be implemented in Python, let's try to find the simplest possible implementation}
+    \begin{small}
+    \begin{minted}{python}
+>>> def italic(text_func):
+...     def italicize(*a, **kw):
+...         return '<i>{}</i>'.format(text_func(*a, **kw))
+...     return italicize
+...
+>>> def format_text(text):
+...     return text
+...
+>>> format_text = italic(format_text)
+>>> format_text('Learning Decorators')
+'<i>Learning Decorators</i>'
+    \end{minted}
+    \end{small}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Decoration}
+\begin{itemize}
+  \item{Having defined the \mintinline{python}{italic} decorator on the previous slide, the code}
+    \begin{minted}{python}
+>>> def format_text(text):
+...     return text
+...
+>>> format_text = italic(format_text)
+    \end{minted}
+    is equivalent to
+    \begin{minted}{python}
+>>> @italic
+>>> def format_text(text):
+...     return text
+...
+    \end{minted}
+    and thus we see that using the \mintinline{python}{@italic} syntax is merely a convenience or shortcut for a simple function metaprogramming construct
 \end{itemize}
 \end{frame}
 
 \section{Decorators}
 
-\begin{frame}
-\frametitle{Decorator Examples}
+\begin{frame}[fragile]
+\frametitle{Decorator Properties/Examples}
 \begin{itemize}
-  \item{simple decorator}
-  \item{decorator sandwich}
-  \item{decorated arguments}
-  \item{decorator arguments}
-  \item{decorating a decorator}
-  \item{can a decorator decorate itself: decorator recursion}
+  \item<1->{Stacking/nesting decorators}
+  \item<2->{decorator sandwich\footnote{\url{https://stackoverflow.com/a/1594484}}}
+    \begin{tiny}
+    \begin{minted}{python}
+>>> def bread(func):
+...     def wrapper():
+...         print('<======>')
+...         func()
+...         print('<======>')
+...     return wrapper
+...
+>>> def vegetables(func):
+...     def wrapper():
+...         print('#tomatoes#')
+...         func()
+...         print('~leaves~')
+...     return wrapper
+...
+>>> @vegetables
+... @bread
+... def sandwich(food='bean-product'):
+...     print(food)
+...
+>>> sandwich()
+#tomatoes#
+<======>
+bean-product
+<======>
+~leaves~
+    \end{minted}
+    \end{tiny}
 \end{itemize}
 \end{frame}
 
-\section{Motivation}
+\begin{frame}
+\frametitle{Decorator Properties/Examples}
+\begin{itemize}
+  \item<1->{Decorated arguments: We have seen that arguments pass naturally from the inner, constructed function to the decorated function, the decorator works only with the function object itself and so does not care about its arguments, because it does not call it}
+  \item<2->{Decorator arguments: Nothing prevents you from passing additional arguments to the decorator, including additional functions}
+  \item<3->{Decorating classes: Decorators can be applied to class methods and object methods as well as classes themselves in any case using the \mintinline{python}{@decorator} convenience syntax}
+\end{itemize}
+\end{frame}
 
 \begin{frame}
-\frametitle{Using Decorators}
+\frametitle{Decorator Properties/Examples}
+\begin{itemize}
+  \item<1->{Decorating a decorator: Again, due to the generality of the function metaprogramming provided by Python's object model, nothing prevents you from decorating a decorator: a decorator which returns a decorator}
+  \item<2->{Can a decorator decorate itself: decorator recursion (an exercise left for the meetup participant)}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Further Examples}
 \begin{itemize}
   \item{creating class methods or static methods}
   \item{adding function attributes}
@@ -77,7 +194,7 @@
   \item{synchronization}
   \item{tail recursion elimination}
   \item{memoization}
-  \item{improving the writing of decorators [wikipedia]}
+  \item{improving the writing of decorators}
   \item{properties}
   \item{contextmanager}
   \item{functools}
@@ -85,16 +202,18 @@
 \end{itemize}
 \end{frame}
 
-
-% functions like everything else is a first class object, assignment, redefinition, etc., but support __call__, (), operation
-% decorator sandwich
-
-% resources:
-% - https://pythonconquerstheuniverse.wordpress.com/2012/04/29/python-decorators/
-% - https://stackoverflow.com/questions/739654/how-can-i-make-a-chain-of-function-decorators-in-python/1594484#1594484
-% - https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators
-% - https://en.wikipedia.org/wiki/Decorator_pattern
-% - https://en.wikipedia.org/wiki/Advice_%28programming%29
-% - https://wiki.python.org/moin/PythonDecoratorLibrary
+\begin{frame}
+\frametitle{References}
+\begin{small}
+\begin{itemize}
+  \item{\url{https://pythonconquerstheuniverse.wordpress.com/2012/04/29/python-decorators/}}
+  \item{\url{https://stackoverflow.com/a/1594484}}
+  \item{\url{https://en.wikipedia.org/wiki/Python_syntax_and_semantics\#Decorators}}
+  \item{\url{https://en.wikipedia.org/wiki/Decorator_pattern}}
+  \item{\url{https://en.wikipedia.org/wiki/Advice_\%28programming\%29}}
+  \item{\url{https://wiki.python.org/moin/PythonDecoratorLibrary}}
+\end{itemize}
+\end{small}
+\end{frame}
 
 \end{document}
